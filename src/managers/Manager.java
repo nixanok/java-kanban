@@ -33,10 +33,11 @@ public class Manager {
         subtasks.put(subtask.getId(), subtask);
 
         int epicId = subtask.getEpicId();
-        updateEpicStatus(epicId);
 
         Epic epic = epics.get(epicId);
         epic.addSubtask(subtask.getId());
+
+        updateEpicStatus(epicId);
 
         return subtask.getId();
 

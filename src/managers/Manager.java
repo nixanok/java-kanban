@@ -19,7 +19,6 @@ public class Manager {
     }
 
     public int createTask(Task task) {
-
         task.setId(nextId);
         nextId++;
         tasks.put(task.getId(), task);
@@ -35,6 +34,9 @@ public class Manager {
 
         int epicId = subtask.getEpicId();
         updateEpicStatus(epicId);
+
+        Epic epic = epics.get(epicId);
+        epic.addSubtask(subtask.getId());
 
         return subtask.getId();
 
@@ -66,11 +68,11 @@ public class Manager {
 
     public Epic getEpic(int id) { return epics.get(id); }
 
-    public Collection<Task> getTasks() { return  tasks.values(); }
+    public ArrayList<Task> getTasks() { return  new ArrayList<>(tasks.values()); }
 
-    public Collection<Subtask> getSubtasks() { return subtasks.values(); }
+    public ArrayList<Subtask> getSubtasks() { return new ArrayList<>(subtasks.values()); }
 
-    public Collection<Epic> getEpics() { return epics.values(); }
+    public ArrayList<Epic> getEpics() { return new ArrayList<>(epics.values()); }
 
     public void deleteTask(Integer taskId) {
 
@@ -128,6 +130,7 @@ public class Manager {
     }
 
     public ArrayList<Subtask> getSubtasksFromEpic(int epicId) {
+
         if (!epics.containsKey(epicId)) {
             return null;
         }
@@ -147,7 +150,7 @@ public class Manager {
 
         boolean isNew = true;
         boolean isDone = true;
-
+        boolean isInProgress = false;
         Epic epic = epics.get(epicId);
         ArrayList<Integer> subtasksId = epic.getSubtasksId();
 
@@ -155,6 +158,11 @@ public class Manager {
             return "NEW";
 
         for (Integer id : subtasksId) {
+
+            if (isInProgress) {
+                break;
+            }
+
             Subtask subtask = subtasks.get(id);
             switch (subtask.getStatus()) {
                 case "NEW":
@@ -166,6 +174,7 @@ public class Manager {
                 default:
                     isNew = false;
                     isDone = false;
+                    isInProgress = true;
             }
         }
 

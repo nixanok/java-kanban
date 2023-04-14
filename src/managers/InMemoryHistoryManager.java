@@ -2,13 +2,13 @@ package managers;
 
 import taskCore.Task;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private ArrayList<Task> historyTasks;
+    final private LinkedList<Task> historyTasks;
 
     InMemoryHistoryManager() {
-        historyTasks = new ArrayList<>();
+        historyTasks = new LinkedList<>();
     }
 
     private void limitHistory(int limit) {
@@ -24,7 +24,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory(){
+    public LinkedList<Task> getHistory(){
 
         return historyTasks;
     }

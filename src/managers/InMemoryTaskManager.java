@@ -2,16 +2,17 @@ package managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import taskCore.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int nextId = 1;
-    private HashMap<Integer, Epic> epics;
-    private HashMap<Integer, Subtask> subtasks;
-    private HashMap<Integer, Task> tasks;
+    final private HashMap<Integer, Epic> epics;
+    final private HashMap<Integer, Subtask> subtasks;
+    final private HashMap<Integer, Task> tasks;
 
-    private HistoryManager historyManager;
+    final HistoryManager historyManager;
 
     public InMemoryTaskManager() {
         epics = new HashMap<>();
@@ -168,7 +169,8 @@ public class InMemoryTaskManager implements TaskManager {
         return subtasksFromEpic;
     }
 
-    @Override public ArrayList<Task> getHistory() {
+    @Override
+    public LinkedList<Task> getHistory() {
         return historyManager.getHistory();
     }
 
@@ -219,12 +221,4 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setStatus(status);
     }
 
-
-//    private void updateEpicsStatus() {
-//        for(Integer id: epics.keySet()) {
-//            String status = calculateEpicStatus(id);
-//            Epic epic = epics.get(id);
-//            epic.setStatus(status);
-//        }
-//    }
 }

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public class InMemoryHistoryManager implements HistoryManager {
     final private LinkedList<Task> historyTasks;
 
-    InMemoryHistoryManager() {
+    public InMemoryHistoryManager() {
         historyTasks = new LinkedList<>();
     }
 

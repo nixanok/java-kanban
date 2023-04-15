@@ -12,7 +12,7 @@ public class InMemoryTaskManager implements TaskManager {
     final private HashMap<Integer, Subtask> subtasks;
     final private HashMap<Integer, Task> tasks;
 
-    final HistoryManager historyManager;
+    final private HistoryManager historyManager;
 
     public InMemoryTaskManager() {
         epics = new HashMap<>();

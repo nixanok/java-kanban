@@ -1,31 +1,46 @@
 package managers;
 
+import additionalStructures.CustomLinkedList;
+import additionalStructures.Node;
+
 import taskCore.Task;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class InMemoryHistoryManager implements HistoryManager {
-    final private LinkedList<Task> historyTasks;
+    final private CustomLinkedList<Task> historyTasks;
+
+    final private HashMap<Integer, Node> indicesOfNodes;
 
     public InMemoryHistoryManager() {
-        historyTasks = new LinkedList<>();
-    }
-
-    private void limitHistory(int limit) {
-        while (historyTasks.size() > limit) {
-            historyTasks.remove(0);
-        }
+        historyTasks = new CustomLinkedList<>();
+        indicesOfNodes = new HashMap<>();
     }
 
     @Override
     public void add(Task task) {
-        historyTasks.add(task);
-        limitHistory(10);
+
+        final int id = task.getId();
+
+        if (indicesOfNodes.containsKey(id)) {
+            delete(id);
+        }
+
+        final Node node = historyTasks.linkLast(task);
+        indicesOfNodes.put(id, node);
     }
 
     @Override
-    public LinkedList<Task> getHistory(){
+    public void delete(int id) {
+        final Node node = indicesOfNodes.get(id);
+        historyTasks.delete(node);
+        indicesOfNodes.remove(id);
+    }
 
-        return historyTasks;
+    @Override
+    public ArrayList<Task> getHistory(){
+        return historyTasks.getList();
     }
 }

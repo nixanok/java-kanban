@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class InMemoryHistoryManager implements HistoryManager {
     final private CustomLinkedList<Task> historyTasks;
 
-    final private HashMap<Integer, Node> indicesOfNodes;
+    final private HashMap<Integer, Node<Task>> indicesOfNodes;
 
     public InMemoryHistoryManager() {
         historyTasks = new CustomLinkedList<>();
@@ -28,13 +28,13 @@ public class InMemoryHistoryManager implements HistoryManager {
             delete(id);
         }
 
-        final Node node = historyTasks.linkLast(task);
+        final Node<Task> node = historyTasks.linkLast(task);
         indicesOfNodes.put(id, node);
     }
 
     @Override
     public void delete(int id) {
-        final Node node = indicesOfNodes.get(id);
+        final Node<Task> node = indicesOfNodes.get(id);
         historyTasks.delete(node);
         indicesOfNodes.remove(id);
     }

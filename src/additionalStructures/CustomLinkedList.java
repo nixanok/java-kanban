@@ -9,7 +9,7 @@ public class CustomLinkedList<T> {
 
     private int size = 0;
 
-    public Node linkLast(T element) {
+    public Node<T> linkLast(T element) {
 
         final Node<T> newNode;
 
@@ -29,15 +29,15 @@ public class CustomLinkedList<T> {
         return newNode;
     }
 
-    public void delete(Node element) {
+    public void delete(Node<T> element) {
 
         if (size == 1) {
             head = null;
             tail = null;
         }
 
-        Node prevNode = element.prev;
-        Node nextNode = element.next;
+        Node<T> prevNode = element.prev;
+        Node<T> nextNode = element.next;
 
         if (prevNode != null) {
             prevNode.next = nextNode;

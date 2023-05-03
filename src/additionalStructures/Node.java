@@ -1,8 +1,8 @@
 package additionalStructures;
 
 public class Node<E> {
-    E data;
     Node<E> next;
+    E data;
     Node<E> prev;
 
     Node(Node<E> prev, E data, Node<E> next) {

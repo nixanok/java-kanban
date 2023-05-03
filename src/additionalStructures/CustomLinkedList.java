@@ -1,5 +1,6 @@
 package additionalStructures;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomLinkedList<T> {
 
@@ -11,15 +12,15 @@ public class CustomLinkedList<T> {
 
     public Node<T> linkLast(T element) {
 
+        final Node<T> oldTail = tail;
         final Node<T> newNode;
 
+        newNode = new Node<>(oldTail, element, null);
+
         if (size == 0) {
-            newNode = new Node<>(null, element, null);
             head = newNode;
         }
         else {
-            final Node<T> oldTail = tail;
-            newNode = new Node<>(oldTail, element, null);
             oldTail.next = newNode;
         }
 
@@ -30,6 +31,9 @@ public class CustomLinkedList<T> {
     }
 
     public void delete(Node<T> element) {
+
+        if (element == null)
+            return;
 
         if (size == 1) {
             head = null;
@@ -47,7 +51,6 @@ public class CustomLinkedList<T> {
             head = nextNode;
         }
 
-
         if (nextNode != null) {
             nextNode.prev = prevNode;
         }
@@ -55,13 +58,12 @@ public class CustomLinkedList<T> {
             tail = prevNode;
         }
 
-
         size--;
 
     }
 
-    public ArrayList<T> getList(){
-        ArrayList<T> list = new ArrayList<>();
+    public List<T> getList(){
+        List<T> list = new ArrayList<>();
 
         Node<T> iterator = head;
         while (iterator != null) {

@@ -62,7 +62,7 @@ public class CustomLinkedList<T> {
 
     }
 
-    public List<T> getList(){
+    public List<T> getList() {
         List<T> list = new ArrayList<>();
 
         Node<T> iterator = head;

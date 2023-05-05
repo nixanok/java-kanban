@@ -23,7 +23,7 @@ public interface TaskManager {
     List<Subtask> getSubtasks();
     List<Epic> getEpics();
 
-    void deleteTask(Integer taskId);
+    void deleteTask(int taskId);
     void deleteSubtask(int subtaskId);
     void deleteEpic(int epicId);
 

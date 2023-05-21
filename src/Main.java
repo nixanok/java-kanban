@@ -1,10 +1,6 @@
-
 import managers.Managers;
-import managers.TaskManager;
-import taskCore.Epic;
-import taskCore.Status;
-import taskCore.Subtask;
-import taskCore.Task;
+import managers.TasksManager;
+import taskCore.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,44 +15,30 @@ public class Main {
         Subtask subtask2 = new Subtask("Subtask2", "6", Status.DONE, 3);
         Subtask subtask3 = new Subtask("Subtask3", "7", Status.DONE, 3);
 
-        TaskManager taskManager = Managers.getDefault();
+        TasksManager tasksManager = Managers.getFileBackedTasksManager();
 
-        taskManager.createTask(task1);
-        taskManager.createTask(task2);
+        tasksManager.createTask(task1);
+        tasksManager.createTask(task2);
 
-        taskManager.createEpic(epic1);
-        taskManager.createEpic(epic2);
+        tasksManager.createEpic(epic1);
+        tasksManager.createEpic(epic2);
 
-        taskManager.createSubtask(subtask1);
-        taskManager.createSubtask(subtask2);
-        taskManager.createSubtask(subtask3);
+        tasksManager.createSubtask(subtask1);
+        tasksManager.createSubtask(subtask2);
+        tasksManager.createSubtask(subtask3);
 
 
-        taskManager.getTask(2);
-        taskManager.getTask(1);
+        tasksManager.getTask(2);
+        tasksManager.getTask(1);
 
-        taskManager.getSubtask(6);
-        taskManager.getSubtask(7);
-        taskManager.getSubtask(5);
+        tasksManager.getSubtask(6);
+        tasksManager.getSubtask(7);
+        tasksManager.getSubtask(5);
 
-        System.out.println(taskManager.getHistory());
+        tasksManager.getTask(1);
 
-        taskManager.deleteSubtask(7);
-        taskManager.deleteTask(2);
-
-        System.out.println(taskManager.getHistory());
-
-        taskManager.getTask(1);
-
-        taskManager.getEpic(3);
-        taskManager.getEpic(3);
-        taskManager.getEpic(4);
-
-        System.out.println(taskManager.getHistory());
-
-        taskManager.deleteEpic(3);
-
-        System.out.println(taskManager.getHistory());
-
+        tasksManager.getEpic(3);
+        tasksManager.getEpic(3);
+        tasksManager.getEpic(4);
     }
 }

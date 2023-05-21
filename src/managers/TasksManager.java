@@ -6,10 +6,11 @@ import taskCore.Task;
 
 import java.util.List;
 
-public interface TaskManager {
-    int createTask(Task task);
-    int createSubtask(Subtask subtask);
-    int createEpic(Epic epic);
+public interface TasksManager {
+    void createTask(Task task);
+    void createSubtask(Subtask subtask);
+
+    void createEpic(Epic epic);
 
     void updateTask(Task task);
     void updateSubtask(Subtask subtask);

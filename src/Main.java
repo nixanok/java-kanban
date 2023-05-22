@@ -1,6 +1,9 @@
+import managers.FileBackedTasksManager;
 import managers.Managers;
 import managers.TasksManager;
 import taskCore.*;
+
+import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,5 +43,7 @@ public class Main {
         tasksManager.getEpic(3);
         tasksManager.getEpic(3);
         tasksManager.getEpic(4);
+
+        TasksManager tasksManagerFromFile = FileBackedTasksManager.loadFromFile(new File("resources/data.csv"));
     }
 }

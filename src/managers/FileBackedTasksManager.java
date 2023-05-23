@@ -34,7 +34,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
 
     static public FileBackedTasksManager loadFromFile(File file) {
 
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(new File("resources/newData.csv"));
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(new File("resources/data.csv"));
 
         try (Reader fileReader = new FileReader(file)) {
             Map<Integer, TaskType> idToType = new HashMap<>();
@@ -110,15 +110,15 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
         switch (taskType) {
             case TASK:
                 super.updateId(task.getId());
-                super.tasks.put(task.getId(), task);
+                tasks.put(task.getId(), task);
                 break;
             case EPIC:
                 super.updateId(task.getId());
-                super.epics.put(task.getId(), (Epic) task);
+                epics.put(task.getId(), (Epic) task);
                 break;
             case SUBTASK:
                 super.updateId(task.getId());
-                super.subtasks.put(task.getId(), (Subtask) task);
+                subtasks.put(task.getId(), (Subtask) task);
                 int epicId = ((Subtask)task).getEpicId();
 
                 Epic epic = epics.get(epicId);

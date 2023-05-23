@@ -7,7 +7,6 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-
         Task task1 = new Task("title1", "1", Status.IN_PROGRESS);
         Task task2 = new Task("title2", "2", Status.IN_PROGRESS);
 

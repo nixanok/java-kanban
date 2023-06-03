@@ -34,7 +34,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
 
     static public FileBackedTasksManager loadFromFile(File file) {
 
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(new File("resources/data.csv"));
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
 
         try (Reader fileReader = new FileReader(file)) {
             Map<Integer, TaskType> idToType = new HashMap<>();

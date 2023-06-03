@@ -36,6 +36,6 @@ public interface TasksManager {
 
     List<Task> getHistory();
 
-
+    List<Integer> getIdHistory();
 
 }

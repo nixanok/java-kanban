@@ -118,6 +118,24 @@ public class InMemoryTasksManager implements TasksManager {
     public List<Epic> getEpics() { return new ArrayList<>(epics.values()); }
 
     @Override
+    public List<Subtask> getSubtasksFromEpic(int epicId) {
+
+        if (!epics.containsKey(epicId)) {
+            return null;
+        }
+
+        Epic epic = epics.get(epicId);
+        List<Integer> subtasksId = epic.getSubtasksId();
+
+        List<Subtask> subtasksFromEpic = new ArrayList<>();
+        for (Integer id : subtasksId) {
+            subtasksFromEpic.add(subtasks.get(id));
+        }
+
+        return subtasksFromEpic;
+    }
+
+    @Override
     public void deleteTask(int taskId) {
 
         if (!tasks.containsKey(taskId))
@@ -199,26 +217,13 @@ public class InMemoryTasksManager implements TasksManager {
     }
 
     @Override
-    public List<Subtask> getSubtasksFromEpic(int epicId) {
-
-        if (!epics.containsKey(epicId)) {
-            return null;
-        }
-
-        Epic epic = epics.get(epicId);
-        List<Integer> subtasksId = epic.getSubtasksId();
-
-        List<Subtask> subtasksFromEpic = new ArrayList<>();
-        for (Integer id : subtasksId) {
-            subtasksFromEpic.add(subtasks.get(id));
-        }
-
-        return subtasksFromEpic;
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 
     @Override
-    public List<Task> getHistory() {
-        return historyManager.getHistory();
+    public List<Integer> getIdHistory() {
+        return historyManager.getIdHistory();
     }
 
     protected Status calculateEpicStatus(int epicId) {

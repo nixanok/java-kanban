@@ -8,6 +8,7 @@ import taskCore.Task;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -44,5 +45,13 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory(){
         return historyTasks.getList();
+    }
+
+    @Override
+    public List<Integer> getIdHistory(){
+        return historyTasks.getList()
+                .stream()
+                .map(Task::getId)
+                .collect(Collectors.toList());
     }
 }

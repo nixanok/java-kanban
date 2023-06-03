@@ -6,7 +6,6 @@ public class Task {
     protected String title;
     protected String description;
     protected int id;
-
     protected Status status;
 
     public Task(String title, String description, Status status) {
@@ -61,12 +60,14 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id;
+        return this.title.equals(task.title)
+                && this.description.equals(task.description)
+                && this.status.equals(task.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(title, description, status);
     }
 
     @Override

@@ -6,11 +6,15 @@ import managers.TasksManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.DataValidationException;
 import taskCore.Epic;
 import taskCore.Status;
 import taskCore.Subtask;
 import taskCore.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 abstract class TasksManagerTest<T extends TasksManager> {
@@ -31,13 +35,19 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
     @BeforeEach
     public void initTasks() {
-        task1 = new Task("task1", "taskDescription1", Status.NEW);
-        task2 = new Task("task2", "taskDescription2", Status.NEW);
-        task3 = new Task("task3", "taskDescription3", Status.NEW);
+        task1 = new Task("task1", "taskDescription1", Status.NEW
+                , LocalDateTime.parse("2021-06-03T13:54"), Duration.ofMinutes(100));
+        task2 = new Task("task2", "taskDescription2", Status.NEW
+                , LocalDateTime.parse("2021-05-03T13:54"), Duration.ofMinutes(100));
+        task3 = new Task("task3", "taskDescription3", Status.NEW
+                , LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
 
-        subtask1 = new Subtask("subtask1", "subtaskDescription1", Status.NEW, 1);
-        subtask2 = new Subtask("subtask2", "subtaskDescription2", Status.NEW, 1);
-        subtask3 = new Subtask("subtask3", "subtaskDescription3", Status.NEW, 1);
+        subtask1 = new Subtask("subtask1", "subtaskDescription1", Status.NEW
+                , LocalDateTime.parse("2020-06-03T13:54"), Duration.ofMinutes(100), 1);
+        subtask2 = new Subtask("subtask2", "subtaskDescription2", Status.NEW,
+                LocalDateTime.parse("2020-05-03T13:56"), Duration.ofMinutes(100), 1);
+        subtask3 = new Subtask("subtask3", "subtaskDescription3", Status.NEW,
+                LocalDateTime.parse("2020-06-03T20:00"), Duration.ofMinutes(100), 1);
 
         epic1 = new Epic("epic1", "epicDescription1");
         epic2 = new Epic("epic2", "epicDescription2");
@@ -234,12 +244,69 @@ abstract class TasksManagerTest<T extends TasksManager> {
     }
 
     @Test
+    public void shouldReturnPrioritizedTasks() {
+        task1.setStartTime(LocalDateTime.parse("2023-01-01T00:00"));
+        task2.setStartTime(LocalDateTime.parse("2022-01-01T00:00"));
+        task3.setStartTime(LocalDateTime.parse("2022-01-01T10:00"));
+
+        subtask1.setStartTime(LocalDateTime.parse("2022-10-01T00:00"));
+        subtask2.setStartTime(LocalDateTime.parse("2025-01-01T00:00"));
+        subtask3.setStartTime(LocalDateTime.parse("2021-01-01T00:01"));
+
+        taskManager.createEpic(epic1);
+
+        taskManager.createTask(task1);
+        taskManager.createTask(task2);
+        taskManager.createTask(task3);
+
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        taskManager.createSubtask(subtask3);
+
+        List<Task> expectedPrioritizedTasks = List.of(subtask3, task2, task3, subtask1, task1, subtask2);
+        List<Task> actualPrioritizedTasks = taskManager.getPrioritizedTasks();
+
+        assertEquals(expectedPrioritizedTasks, actualPrioritizedTasks);
+    }
+
+    @Test
+    public void shouldReturnEmptyPrioritizedTasks() {
+        assertEquals(Collections.emptyList(), taskManager.getPrioritizedTasks()
+                , "Список отсортированнных по приоритету задач не пуст.");
+
+        task1.setStartTime(LocalDateTime.parse("2023-01-01T00:00"));
+        task2.setStartTime(LocalDateTime.parse("2022-01-01T00:00"));
+        task3.setStartTime(LocalDateTime.parse("2022-01-01T10:00"));
+
+        subtask1.setStartTime(LocalDateTime.parse("2022-10-01T00:00"));
+        subtask2.setStartTime(LocalDateTime.parse("2025-01-01T00:00"));
+        subtask3.setStartTime(LocalDateTime.parse("2021-01-01T00:01"));
+
+        taskManager.createEpic(epic1);
+
+        taskManager.createTask(task1);
+        taskManager.createTask(task2);
+        taskManager.createTask(task3);
+
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        taskManager.createSubtask(subtask3);
+
+        taskManager.deleteAllTasks();
+        taskManager.deleteAllEpics();
+
+        assertEquals(Collections.emptyList(), taskManager.getPrioritizedTasks()
+                , "Список отсортированнных по приоритету задач не пуст.");
+    }
+
+    @Test
     public void shouldRemoveTask() {
         taskManager.createTask(task1);
         taskManager.deleteTask(1);
 
         assertEquals(0, taskManager.getTasks().size());
-        assertThrows(NullPointerException.class, () -> taskManager.getTask(1), "Задача удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getTask(1)
+                , "Задача удаляется некорректно.");
     }
 
     @Test
@@ -250,10 +317,14 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         taskManager.deleteAllTasks();
 
-        assertEquals(0, taskManager.getTasks().size(), "Задачи удаляются некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getTask(1), "Задача удаляется некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getTask(2), "Задача удаляется некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getTask(3), "Задача удаляется некорректно.");
+        assertEquals(0, taskManager.getTasks().size()
+                , "Задачи удаляются некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getTask(1)
+                , "Задача удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getTask(2)
+                , "Задача удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getTask(3)
+                , "Задача удаляется некорректно.");
     }
 
     @Test
@@ -264,7 +335,8 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         taskManager.deleteSubtask(2);
         assertEquals(0, taskManager.getSubtasks().size());
-        assertThrows(NullPointerException.class, () -> taskManager.getTask(2), "Подзадача удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getTask(2)
+                , "Подзадача удаляется некорректно.");
     }
 
     @Test
@@ -278,9 +350,12 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.deleteAllSubtasks();
 
         assertEquals(0, taskManager.getSubtasks().size(), "Подзадачи удаляются некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(1), "Подзадача удаляется некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(2), "Подзадача удаляется некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3), "Подзадача удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(1)
+                , "Подзадача удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(2)
+                , "Подзадача удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3)
+                , "Подзадача удаляется некорректно.");
     }
 
     @Test
@@ -288,8 +363,10 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createEpic(epic1);
 
         taskManager.deleteEpic(1);
-        assertEquals(0, taskManager.getEpics().size(), "Эпик удаляется некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getEpic(1), "Эпик удаляется некорректно.");
+        assertEquals(0, taskManager.getEpics().size()
+                , "Эпик удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getEpic(1)
+                , "Эпик удаляется некорректно.");
     }
 
     @Test
@@ -300,16 +377,18 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask3);
 
         taskManager.deleteEpic(1);
-        assertEquals(0, taskManager.getEpics().size(), "Эпик удаляется некорректно.");
+        assertEquals(0, taskManager.getEpics().size()
+                , "Эпик удаляется некорректно.");
         assertThrows(NullPointerException.class, () -> taskManager.getEpic(1),
                 "Эпик удаляется некорректно.");
-        assertEquals(0, taskManager.getSubtasks().size(), "Подзадачи из эпика удаляются некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(2), "Подзадача из эпика " +
-                "удаляется некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3), "Подзадача из эпика " +
-                "удаляется некорректно.");
-        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(4), "Подзадача из эпика " +
-                "удаляется некорректно.");
+        assertEquals(0, taskManager.getSubtasks().size()
+                , "Подзадачи из эпика удаляются некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(2)
+                , "Подзадача из эпика удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3)
+                , "Подзадача из эпика удаляется некорректно.");
+        assertThrows(NullPointerException.class, () -> taskManager.getSubtask(4)
+                , "Подзадача из эпика удаляется некорректно.");
     }
 
     @Test
@@ -389,7 +468,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     }
 
     @Test
-    public void shouldInProgressNewStatusIfAllSubtasksIsNewAndDone() {
+    public void shouldInProgressStatusIfAllSubtasksIsNewAndDone() {
         subtask1.setStatus(Status.NEW);
         subtask2.setStatus(Status.DONE);
         subtask3.setStatus(Status.NEW);
@@ -404,7 +483,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     }
 
     @Test
-    public void shouldInProgressNewStatusIfAllSubtasksIsInProgress() {
+    public void shouldInProgressStatusIfAllSubtasksIsInProgress() {
         subtask1.setStatus(Status.IN_PROGRESS);
         subtask2.setStatus(Status.IN_PROGRESS);
         subtask3.setStatus(Status.IN_PROGRESS);
@@ -419,8 +498,50 @@ abstract class TasksManagerTest<T extends TasksManager> {
     }
 
     @Test
+    public void shouldCalculateEpicTimeWithOneSubtask() {
+        subtask1.setStartTime(LocalDateTime.of(2023, 6, 1, 0, 0));
+        subtask1.setDuration(Duration.ofMinutes(120));
+        LocalDateTime endTime = subtask1.getEndTime();
+        LocalDateTime startTime = subtask1.getStartTime();
+
+        taskManager.createEpic(epic1);
+        taskManager.createSubtask(subtask1);
+
+        assertEquals(startTime, epic1.getStartTime()
+                , "Время старта эпика с одной подзадачей рассчитано неверно.");
+        assertEquals(endTime, epic1.getEndTime()
+                , "Время конца эпика с одной подзадачей рассчитано неверно.");
+    }
+
+    @Test
+    public void shouldCalculateEpicTimeWithSomeSubtasks() {
+        subtask1.setStartTime(LocalDateTime.of(2023, 6, 1, 0, 0));
+        subtask1.setDuration(Duration.ofMinutes(120));
+
+        subtask2.setStartTime(LocalDateTime.of(2023, 6, 1, 3, 0));
+        subtask2.setDuration(Duration.ofMinutes(60));
+
+        subtask3.setStartTime(LocalDateTime.of(2023, 5, 1, 3, 0));
+        subtask3.setDuration(Duration.ofMinutes(0));
+
+        LocalDateTime startTime = LocalDateTime.of(2023, 5, 1, 3, 0);
+        LocalDateTime endTime = LocalDateTime.of(2023, 6, 1, 4, 0);
+
+        taskManager.createEpic(epic1);
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        taskManager.createSubtask(subtask3);
+
+        assertEquals(startTime, epic1.getStartTime()
+                , "Время старта эпика с одной подзадачей рассчитано неверно.");
+        assertEquals(endTime, epic1.getEndTime()
+                , "Время конца эпика с одной подзадачей рассчитано неверно.");
+    }
+
+    @Test
     public void shouldReturnEmptyHistory() {
-        assertEquals(0, taskManager.getHistory().size(), "История не пуста при создании нового менеджера.");
+        assertEquals(0, taskManager.getHistory().size()
+                , "История не пуста при создании нового менеджера.");
 
         taskManager.createEpic(epic1);
         taskManager.createTask(task1);
@@ -434,7 +555,8 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.deleteTask(2);
         taskManager.deleteSubtask(3);
 
-        assertEquals(0, taskManager.getHistory().size(), "История не пуста при создании нового менеджера.");
+        assertEquals(0, taskManager.getHistory().size()
+                , "История не пуста при создании нового менеджера.");
     }
 
     @Test
@@ -460,11 +582,13 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.getSubtask(8);
         taskManager.getSubtask(9);
 
-        assertEquals(List.of(1, 2, 3, 4, 7, 8, 9), taskManager.getIdHistory(), "История сохраняется некорректно.");
+        assertEquals(List.of(1, 2, 3, 4, 7, 8, 9), taskManager.getIdHistory()
+                , "История сохраняется некорректно.");
 
         taskManager.deleteEpic(1);
 
-        assertEquals(List.of(2, 3, 4), taskManager.getIdHistory(), "История сохраняется некорректно.");
+        assertEquals(List.of(2, 3, 4), taskManager.getIdHistory()
+                , "История сохраняется некорректно.");
 
         taskManager.deleteEpic(3);
 
@@ -491,6 +615,20 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         assertEquals(List.of(3, 2, 1), taskManager.getIdHistory()
                 , "История сохраняется некорректно при дублировании просмотров.");
+    }
+
+    @Test
+    public void shouldThrowValidationException() {
+        task1.setStartTime(LocalDateTime.parse("2021-06-03T13:54"));
+        task1.setDuration(Duration.ofMinutes(30));
+        task2.setStartTime(LocalDateTime.parse("2021-06-03T14:05"));
+        task2.setDuration(Duration.ofMinutes(15));
+
+        assertThrows(DataValidationException.class, () -> {
+                taskManager.createTask(task1);
+                taskManager.createTask(task2);
+        });
+
     }
 
 }

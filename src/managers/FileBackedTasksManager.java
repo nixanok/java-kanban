@@ -5,6 +5,8 @@ import taskCore.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -133,6 +135,86 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
     }
 
     @Override
+    public String toString() {
+
+        StringBuilder total = new StringBuilder("id,type,title,status,description,startTime,duration,epicId\n");
+
+        for (Task task : super.getTasks()) {
+            total.append(String.format("%s,%s,%s,%s,%s,%s,%s\n", task.getId(), TASK, task.getTitle(),
+                    task.getStatus(), task.getDescription(), task.getStartTime(), task.getDuration()));
+        }
+
+        for (Epic task : super.getEpics()) {
+            total.append(String.format("%s,%s,%s,%s,%s,%s,%s\n", task.getId(), EPIC, task.getTitle(),
+                    task.getStatus(), task.getDescription(), task.getStartTime(), task.getDuration()));
+        }
+
+        for (Subtask task : super.getSubtasks()) {
+            total.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n", task.getId(), SUBTASK, task.getTitle(),
+                    task.getStatus(), task.getDescription(), task.getStartTime(), task.getDuration(), task.getEpicId()));
+        }
+
+        total.append("\n");
+        total.append(historyToString(historyManager));
+
+        return total.toString();
+    }
+
+    static public Task fromString(String taskAttributes) throws RuntimeException {
+
+        String[] attributes = taskAttributes.split(",");
+
+        int id = Integer.parseInt(attributes[0]);
+        TaskType taskType = TaskType.valueOf(attributes[1]);
+        String title = attributes[2];
+        Status status = Status.valueOf(attributes[3]);
+        String description = attributes[4];
+        LocalDateTime startTime = LocalDateTime.parse(attributes[5]);
+        Duration duration = Duration.parse(attributes[6]);
+
+        switch (taskType) {
+            case TASK:
+                return new Task(id, title, description,status, startTime, duration);
+            case SUBTASK:
+                return new Subtask(id, title, description, status, startTime, duration, Integer.parseInt(attributes[7]));
+            case EPIC:
+                return new Epic(id, title, description, startTime, duration);
+            default:
+                throw new RuntimeException("Некорректно определен тип задачи");
+        }
+    }
+
+    static public List<Integer> historyFromString(String value) {
+
+        List<Integer> tasksHistory = new ArrayList<>();
+
+        String[] tasksId = value.split(",");
+
+        for (String id : tasksId) {
+            tasksHistory.add(Integer.parseInt(id));
+        }
+
+        return tasksHistory;
+    }
+
+    static public String historyToString(HistoryManager historyManager) {
+
+        final List<Task> tasksHistory = historyManager.getHistory();
+        StringBuilder idHistory = new StringBuilder();
+
+        for (Task task : tasksHistory) {
+            idHistory.append(task.getId()).append(",");
+        }
+
+        if (idHistory.length() != 0) {
+            idHistory.deleteCharAt(idHistory.length() - 1);
+        }
+
+        return idHistory.toString();
+    }
+
+
+    @Override
     public void createTask(Task task) {
         super.createTask(task);
         try {
@@ -158,7 +240,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
     @Override
     public void updateTask(Task task) {
         super.updateTask(task);
-            save();
+        save();
     }
 
     @Override
@@ -248,7 +330,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
     @Override
     public void deleteAllEpics() {
         super.deleteAllEpics();
-            save();
+        save();
     }
 
     @Override
@@ -256,87 +338,5 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
         List<Subtask> subtasks = super.getSubtasksFromEpic(epicId);
         save();
         return subtasks;
-    }
-
-    @Override
-    public List<Task> getHistory() {
-        return super.getHistory();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder total = new StringBuilder("id,type,title,status,description,epicId\n");
-
-        for (Task task : super.getTasks()) {
-            total.append(String.format("%s,%s,%s,%s,%s\n", task.getId(), TASK, task.getTitle(),
-                    task.getStatus(), task.getDescription()));
-        }
-
-        for (Epic task : super.getEpics()) {
-            total.append(String.format("%s,%s,%s,%s,%s\n", task.getId(), EPIC, task.getTitle(),
-                    task.getStatus(), task.getDescription()));
-        }
-
-        for (Subtask task : super.getSubtasks()) {
-            total.append(String.format("%s,%s,%s,%s,%s,%s\n", task.getId(), SUBTASK, task.getTitle(),
-                    task.getStatus(), task.getDescription(), task.getEpicId()));
-        }
-
-        total.append("\n");
-        total.append(historyToString(historyManager));
-
-        return total.toString();
-    }
-
-    static public Task fromString(String taskAttributes) throws RuntimeException {
-
-        String[] attributes = taskAttributes.split(",");
-
-        int id = Integer.parseInt(attributes[0]);
-        TaskType taskType = TaskType.valueOf(attributes[1]);
-        String title = attributes[2];
-        Status status = Status.valueOf(attributes[3]);
-        String description = attributes[4];
-
-        switch (taskType) {
-            case TASK:
-                return new Task(id, title, description,status);
-            case SUBTASK:
-                return new Subtask(id, title, description, status, Integer.parseInt(attributes[5]));
-            case EPIC:
-                return new Epic(id, title, description);
-            default:
-                throw new RuntimeException("Некорректно определен тип задачи");
-        }
-    }
-
-    static public List<Integer> historyFromString(String value) {
-
-        List<Integer> tasksHistory = new ArrayList<>();
-
-        String[] tasksId = value.split(",");
-
-        for (String id : tasksId) {
-            tasksHistory.add(Integer.parseInt(id));
-        }
-
-        return tasksHistory;
-    }
-
-    static public String historyToString(HistoryManager historyManager) {
-
-        final List<Task> tasksHistory = historyManager.getHistory();
-        StringBuilder idHistory = new StringBuilder();
-
-        for (Task task : tasksHistory) {
-            idHistory.append(task.getId()).append(",");
-        }
-
-        if (idHistory.length() != 0) {
-            idHistory.deleteCharAt(idHistory.length() - 1);
-        }
-
-        return idHistory.toString();
     }
 }

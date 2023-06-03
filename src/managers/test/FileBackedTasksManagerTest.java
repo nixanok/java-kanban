@@ -138,7 +138,8 @@ public class FileBackedTasksManagerTest extends TasksManagerTest<InMemoryTasksMa
 
     @Test
     public void shouldThrowSaveExceptionIfIOException() {
-        FileBackedTasksManager tasksManager = (FileBackedTasksManager) Managers.getFileBackedTasksManager("resources");
+        FileBackedTasksManager tasksManager =
+                (FileBackedTasksManager) Managers.getFileBackedTasksManager("resources");
         assertThrows(ManagerSaveException.class, tasksManager::save, "Ошибка записи.");
     }
 }

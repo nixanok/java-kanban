@@ -1,4 +1,4 @@
-package managers.test;
+package test.managersTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,14 +60,14 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createTask(task1);
 
         final Task savedTask = taskManager.getTask(1);
-        assertNotNull(savedTask, "Задача не найдена.");
-        assertEquals(task1, savedTask, "Задачи не совпадают.");
+        assertNotNull(savedTask, "Ожидалось, что задача будет не null.");
+        assertEquals(task1, savedTask, "Ожидалось, что задачи будут равны.");
 
         final List<Task> tasks = taskManager.getTasks();
 
-        assertNotNull(tasks, "Задачи на возвращаются.");
-        assertEquals(1, tasks.size(), "Неверное количество задач.");
-        assertEquals(task1, tasks.get(0), "Задачи не совпадают.");
+        assertNotNull(tasks, "Ожидалось, что список задач будет непустным.");
+        assertEquals(1, tasks.size(), "Ожидалось получить количество, равное 1, задач.");
+        assertEquals(task1, tasks.get(0), "Ожидалось, что полученная и сохраненная задачи будут равны.");
     }
 
     @Test
@@ -79,18 +79,18 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         final List<Task> savedTasks = taskManager.getTasks();
 
-        assertEquals(3, savedTasks.size(), "Количество задач не совпадает.");
-        assertNotNull(savedTasks.get(0), "Задача не найдена.");
-        assertNotNull(savedTasks.get(1), "Задача не найдена.");
-        assertNotNull(savedTasks.get(2), "Задача не найдена.");
+        assertEquals(3, savedTasks.size(), "Ожидалось, что размер списка задач будет равен 3.");
+        assertNotNull(savedTasks.get(0), "Ожидалось, что задача будет не null.");
+        assertNotNull(savedTasks.get(1), "Ожидалось, что задача будет не null.");
+        assertNotNull(savedTasks.get(2), "Ожидалось, что задача будет не null.");
 
-        assertEquals(task1, savedTasks.get(0), "Задачи не совпадают");
-        assertEquals(task2, savedTasks.get(1), "Задачи не совпадают");
-        assertEquals(task3, savedTasks.get(2) , "Задачи не совпадают");
+        assertEquals(task1, savedTasks.get(0), "Ожидалось, что изначальная и загруженная задачи будут равны.");
+        assertEquals(task2, savedTasks.get(1), "Ожидалось, что изначальная и загруженная задачи будут равны.");
+        assertEquals(task3, savedTasks.get(2) , "Ожидалось, что изначальная и загруженная задачи будут равны.");
 
-        assertEquals(1, task1.getId(), "Индентификаторы не совпадают.");
-        assertEquals(2, task2.getId(), "Индентификаторы не совпадают.");
-        assertEquals(3, task3.getId(), "Индентификаторы не совпадают.");
+        assertEquals(1, task1.getId(), "Ожидалось, что индентификатор у 1-ой задачи будет 1.");
+        assertEquals(2, task2.getId(), "Ожидалось, что индентификатор у 2-ой задачи будет 2.");
+        assertEquals(3, task3.getId(), "Ожидалось, что индентификатор у 3-ей задачи будет 3.");
     }
 
     @Test
@@ -99,14 +99,14 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createEpic(epic1);
 
         final Epic savedEpic = taskManager.getEpic(1);
-        assertNotNull(savedEpic, "Эпик не найден.");
-        assertEquals(epic1, savedEpic, "Эпики не совпадают.");
+        assertNotNull(savedEpic, "Ожидалось, что эпик будет не null.");
+        assertEquals(epic1, savedEpic, "Ожидалось, что эпики совпадут.");
 
         final List<Epic> epics = taskManager.getEpics();
 
-        assertNotNull(epics, "Эпики на возвращаются.");
-        assertEquals(1, epics.size(), "Неверное количество эпиков.");
-        assertEquals(epic1, epics.get(0), "Эпики не совпадают.");
+        assertNotNull(epics, "Ожидалось, что список эпиков будет не null.");
+        assertEquals(1, epics.size(), "Ожидалось получить количество, равное 1, эпиков.");
+        assertEquals(epic1, epics.get(0), "Ожидалось, что полученный и сохранененный эпики будут равны.");
     }
 
     @Test
@@ -118,17 +118,17 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         final List<Epic> savedEpics = taskManager.getEpics();
 
-        assertNotNull(savedEpics.get(0), "Эпик не найден.");
-        assertNotNull(savedEpics.get(1), "Эпик не найден.");
-        assertNotNull(savedEpics.get(2), "Эпик не найден.");
+        assertNotNull(savedEpics.get(0), "Ожидалось, что эпик будет не null.");
+        assertNotNull(savedEpics.get(1), "Ожидалось, что эпик будет не null.");
+        assertNotNull(savedEpics.get(2), "Ожидалось, что эпик будет не null.");
 
-        assertEquals(epic1, savedEpics.get(0), "Эпики не совпадают.");
-        assertEquals(epic2, savedEpics.get(1), "Эпики не совпадают.");
-        assertEquals(epic3, savedEpics.get(2) , "Эпики не совпадают.");
+        assertEquals(epic1, savedEpics.get(0), "Ожидалось, что изначальный и загруженный эпики совпадут.");
+        assertEquals(epic2, savedEpics.get(1), "Ожидалось, что изначальный и загруженный эпики совпадут.");
+        assertEquals(epic3, savedEpics.get(2) , "Ожидалось, что изначальный и загруженный эпики совпадут.");
 
-        assertEquals(1, epic1.getId(), "Индентификаторы не совпадают.");
-        assertEquals(2, epic2.getId(), "Индентификаторы не совпадают.");
-        assertEquals(3, epic3.getId(), "Индентификаторы не совпадают.");
+        assertEquals(1, epic1.getId(), "Ожидалось, что индентификатор у 1-ого эпика будет 1.");
+        assertEquals(2, epic2.getId(), "Ожидалось, что индентификатор у 2-ого эпика будет 2.");
+        assertEquals(3, epic3.getId(), "Ожидалось, что индентификатор у 3-ого эпика будет 3.");
     }
 
     @Test
@@ -138,14 +138,15 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask1);
 
         final Subtask savedSubtask = taskManager.getSubtask(2);
-        assertNotNull(savedSubtask, "Подзадача не найдена.");
-        assertEquals(subtask1, savedSubtask, "Подзадачи не совпадают.");
+        assertNotNull(savedSubtask, "Ожидалось, что подзадача будет не null.");
+        assertEquals(subtask1, savedSubtask, "Ожидалось, что изначальная и загруженная подзадачи совпадут.");
 
         final List<Subtask> subtasks = taskManager.getSubtasks();
 
-        assertNotNull(subtasks, "Подзадачи на возвращаются.");
-        assertEquals(1, subtasks.size(), "Неверное количество Подзадач.");
-        assertEquals(subtask1, subtasks.get(0), "Подзадачи не совпадают.");
+        assertNotNull(subtasks, "Ожидалось, что список подазадач будет непустым");
+        assertEquals(1, subtasks.size(), "Ожидалось, что будет одна подзадача в списке" +
+                " полученных подазадач.");
+        assertEquals(subtask1, subtasks.get(0), "Ожидалось, что изначальная и загруженная подзадачи совпадут.");
     }
 
     @Test
@@ -159,17 +160,17 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         final List<Subtask> savedSubtasks = taskManager.getSubtasks();
 
-        assertNotNull(savedSubtasks.get(0), "Подзадача не найдена.");
-        assertNotNull(savedSubtasks.get(1), "Подзадача не найдена.");
-        assertNotNull(savedSubtasks.get(2), "Подзадача не найдена.");
+        assertNotNull(savedSubtasks.get(0), "Ожидалось, что подзадача будет не null.");
+        assertNotNull(savedSubtasks.get(1), "Ожидалось, что подзадача будет не null.");
+        assertNotNull(savedSubtasks.get(2), "Ожидалось, что подзадача будет не null.");
 
-        assertEquals(subtask1, savedSubtasks.get(0), "Подзадачи не совпадают.");
-        assertEquals(subtask2, savedSubtasks.get(1), "Подзадачи не совпадают.");
-        assertEquals(subtask3, savedSubtasks.get(2) , "Подзадачи не совпадают.");
+        assertEquals(subtask1, savedSubtasks.get(0), "Ожидалось, что изначальная и загруженная подзадачи совпадут.");
+        assertEquals(subtask2, savedSubtasks.get(1), "Ожидалось, что изначальная и загруженная подзадачи совпадут.");
+        assertEquals(subtask3, savedSubtasks.get(2) , "Ожидалось, что изначальная и загруженная подзадачи совпадут.");
 
-        assertEquals(2, subtask1.getId(), "Индентификаторы не совпадают.");
-        assertEquals(3, subtask2.getId(), "Индентификаторы не совпадают.");
-        assertEquals(4, subtask3.getId(), "Индентификаторы не совпадают.");
+        assertEquals(2, subtask1.getId(), "Ожидалось, что индентификатор у 1-ой подзадачи будет 1.");
+        assertEquals(3, subtask2.getId(), "Ожидалось, что индентификатор у 2-ой подзадачи будет 2.");
+        assertEquals(4, subtask3.getId(), "Ожидалось, что индентификатор у 3-ей подзадачи будет 3.");
     }
 
     @Test
@@ -183,7 +184,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.updateTask(task1);
 
         Task savedTask = taskManager.getTask(1);
-        assertEquals(task1, savedTask, "Задачи не совпадают.");
+        assertEquals(task1, savedTask, "Ожидалось, при обновлении задача обновится.");
     }
 
     @Test
@@ -198,7 +199,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.updateSubtask(subtask1);
 
         Task savedSubtask = taskManager.getSubtask(2);
-        assertEquals(subtask1, savedSubtask, "Подзадачи не совпадают.");
+        assertEquals(subtask1, savedSubtask, "Ожидалось, при обновлении подзадача обновится.");
     }
 
     @Test
@@ -211,7 +212,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.updateEpic(epic1);
 
         Epic savedEpic = taskManager.getEpic(1);
-        assertEquals(epic1, savedEpic, "Эпики не совпадают.");
+        assertEquals(epic1, savedEpic, "Ожидалось, при обновлении эпик обновится.");
     }
 
     @Test
@@ -225,22 +226,29 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         final List<Subtask> savedSubtasks = taskManager.getSubtasksFromEpic(1);
 
-        assertNotNull(savedSubtasks.get(0), "Подзадача не найдена.");
-        assertNotNull(savedSubtasks.get(1), "Подзадача не найдена.");
-        assertNotNull(savedSubtasks.get(2), "Подзадача не найдена.");
+        assertNotNull(savedSubtasks.get(0), "Ожидалось, что подзадача, полученная из эпика будет не null.");
+        assertNotNull(savedSubtasks.get(1), "Ожидалось, что подзадача, полученная из эпика будет не null.");
+        assertNotNull(savedSubtasks.get(2), "Ожидалось, что подзадача, полученная из эпика будет не null.");
 
-        assertEquals(subtask1, savedSubtasks.get(0), "Подзадачи не совпадают.");
-        assertEquals(subtask2, savedSubtasks.get(1), "Подзадачи не совпадают.");
-        assertEquals(subtask3, savedSubtasks.get(2) , "Подзадачи не совпадают.");
+        assertEquals(subtask1, savedSubtasks.get(0), "Ожидалось, что изначальная и " +
+                "загруженная из эпика подзадачи совпадут.");
+        assertEquals(subtask2, savedSubtasks.get(1), "Ожидалось, что изначальная и " +
+                "загруженная из эпика подзадачи совпадут.");
+        assertEquals(subtask3, savedSubtasks.get(2) , "Ожидалось, что изначальная и " +
+                "загруженная из эпика подзадачи совпадут.");
 
-        assertEquals(2, subtask1.getId(), "Индентификаторы не совпадают.");
-        assertEquals(3, subtask2.getId(), "Индентификаторы не совпадают.");
-        assertEquals(4, subtask3.getId(), "Индентификаторы не совпадают.");
+        assertEquals(2, subtask1.getId(), "Ожидалось, что индентификатор у 1-ой подзадачи" +
+                ", загруженной из эпика, будет 2.");
+        assertEquals(3, subtask2.getId(), "Ожидалось, что индентификатор у 2-ой подзадачи" +
+                ", загруженной из эпика, будет 3.");
+        assertEquals(4, subtask3.getId(), "Ожидалось, что индентификатор у 3-ей подзадачи" +
+                ", загруженной из эпика, будет 3.");
     }
 
     @Test
     public void shouldReturnNullGetSubtasksIfEpicDoesNotExist() {
-        assertNull(taskManager.getSubtasksFromEpic(50));
+        assertNull(taskManager.getSubtasksFromEpic(50)
+                , "Ожидался null при получении несуществующей подзадачи из эпика");
     }
 
     @Test
@@ -266,13 +274,14 @@ abstract class TasksManagerTest<T extends TasksManager> {
         List<Task> expectedPrioritizedTasks = List.of(subtask3, task2, task3, subtask1, task1, subtask2);
         List<Task> actualPrioritizedTasks = taskManager.getPrioritizedTasks();
 
-        assertEquals(expectedPrioritizedTasks, actualPrioritizedTasks);
+        assertEquals(expectedPrioritizedTasks, actualPrioritizedTasks,
+                "Ожидалось, что время изначальных и загруженный задач будет совпадать.");
     }
 
     @Test
     public void shouldReturnEmptyPrioritizedTasks() {
         assertEquals(Collections.emptyList(), taskManager.getPrioritizedTasks()
-                , "Список отсортированнных по приоритету задач не пуст.");
+                , "Ожидалось, что список отсортированнных по приоритету задач будет пуст.");
 
         task1.setStartTime(LocalDateTime.parse("2023-01-01T00:00"));
         task2.setStartTime(LocalDateTime.parse("2022-01-01T00:00"));
@@ -296,7 +305,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.deleteAllEpics();
 
         assertEquals(Collections.emptyList(), taskManager.getPrioritizedTasks()
-                , "Список отсортированнных по приоритету задач не пуст.");
+                , "Ожидалось, что список отсортированнных по приоритету задач будет пуст.");
     }
 
     @Test
@@ -306,7 +315,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         assertEquals(0, taskManager.getTasks().size());
         assertThrows(NullPointerException.class, () -> taskManager.getTask(1)
-                , "Задача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной задаче.");
     }
 
     @Test
@@ -318,13 +327,13 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.deleteAllTasks();
 
         assertEquals(0, taskManager.getTasks().size()
-                , "Задачи удаляются некорректно.");
+                , "Ожидалось получить пустой список задач после удаления.");
         assertThrows(NullPointerException.class, () -> taskManager.getTask(1)
-                , "Задача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной задаче.");
         assertThrows(NullPointerException.class, () -> taskManager.getTask(2)
-                , "Задача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной задаче.");
         assertThrows(NullPointerException.class, () -> taskManager.getTask(3)
-                , "Задача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной задаче.");
     }
 
     @Test
@@ -336,7 +345,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.deleteSubtask(2);
         assertEquals(0, taskManager.getSubtasks().size());
         assertThrows(NullPointerException.class, () -> taskManager.getTask(2)
-                , "Подзадача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной подзадаче.");
     }
 
     @Test
@@ -349,13 +358,14 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         taskManager.deleteAllSubtasks();
 
-        assertEquals(0, taskManager.getSubtasks().size(), "Подзадачи удаляются некорректно.");
+        assertEquals(0, taskManager.getSubtasks().size(),
+                "Ожидалось получить пустой список подзадач после удаления.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(1)
-                , "Подзадача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной подзадаче.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(2)
-                , "Подзадача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной подзадаче.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3)
-                , "Подзадача удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной подзадаче.");
     }
 
     @Test
@@ -364,9 +374,9 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         taskManager.deleteEpic(1);
         assertEquals(0, taskManager.getEpics().size()
-                , "Эпик удаляется некорректно.");
+                , "Ожидалось получить пустой список эпиков после удаления.");
         assertThrows(NullPointerException.class, () -> taskManager.getEpic(1)
-                , "Эпик удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленному эпику.");
     }
 
     @Test
@@ -378,17 +388,17 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         taskManager.deleteEpic(1);
         assertEquals(0, taskManager.getEpics().size()
-                , "Эпик удаляется некорректно.");
+                , "Ожидалось получить пустой список эпиков после удаления.");
         assertThrows(NullPointerException.class, () -> taskManager.getEpic(1),
-                "Эпик удаляется некорректно.");
+                "Ожидалось получить null при обращении к удаленному эпику.");
         assertEquals(0, taskManager.getSubtasks().size()
-                , "Подзадачи из эпика удаляются некорректно.");
+                , "Ожидалось получить пустой список подзадач после удаления эпика.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(2)
-                , "Подзадача из эпика удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной подзадаче из эпика.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(3)
-                , "Подзадача из эпика удаляется некорректно.");
+                , "ПОжидалось получить null при обращении к удаленной подзадаче из эпика.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(4)
-                , "Подзадача из эпика удаляется некорректно.");
+                , "Ожидалось получить null при обращении к удаленной подзадаче из эпика.");
     }
 
     @Test
@@ -407,34 +417,36 @@ abstract class TasksManagerTest<T extends TasksManager> {
 
         taskManager.deleteAllEpics();
 
-        assertEquals(0, taskManager.getSubtasks().size(), "Подзадачи удаляются некорректно.");
-        assertEquals(0, taskManager.getEpics().size(), "Эпики удаляются некорректно.");
+        assertEquals(0, taskManager.getSubtasks().size(), "Ожидалось, что список подзадач будет пустым.");
+        assertEquals(0, taskManager.getEpics().size(), "Ожидалось, что список эпиков будет пустым.");
 
         assertThrows(NullPointerException.class, () -> taskManager.getEpic(1),
-                "Подзадача удаляется некорректно.");
+                "Ожидалось получить null при обращении к удаленному эпику.");
         assertThrows(NullPointerException.class, () -> taskManager.getEpic(2),
-                "Подзадача удаляется некорректно.");
+                "Ожидалось получить null при обращении к удаленному эпику.");
         assertThrows(NullPointerException.class, () -> taskManager.getEpic(3),
-                "Подзадача удаляется некорректно.");
+                "Ожидалось получить null при обращении к удаленному эпику.");
 
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(4),
-                "Подзадача удаляется некорректно.");
+                "Ожидалось получить null при обращении к удаленной подзадаче.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(5),
-                "Подзадача удаляется некорректно.");
+                "Ожидалось получить null при обращении к удаленной подзадаче.");
         assertThrows(NullPointerException.class, () -> taskManager.getSubtask(6),
-                "Подзадача удаляется некорректно.");
+                "Ожидалось получить null при обращении к удаленной подзадаче.");
     }
 
     @Test
     public void shouldReturnNewStatusWhenEpicIsEmpty() {
         taskManager.createEpic(epic1);
-        assertEquals(Status.NEW, epic1.getStatus(), "Статус эпика рассчитывается некорректно.");
+        assertEquals(Status.NEW, epic1.getStatus(), "Ожидалось, что статус пустого эпика будет 'NEW'");
 
         taskManager.createSubtask(subtask1);
-        assertEquals(Status.NEW, epic1.getStatus(), "Статус эпика рассчитывается некорректно.");
+        assertEquals(Status.NEW, epic1.getStatus(), "Ожидалось," +
+                " что статус эпика с подзадачами со статусом 'NEW' будет 'NEW'");
 
         taskManager.deleteSubtask(2);
-        assertEquals(Status.NEW, epic1.getStatus(), "Статус эпика рассчитывается некорректно.");
+        assertEquals(Status.NEW, epic1.getStatus(), "Ожидалось," +
+                " что статус у пустого эпика будет после удаления подзадачи статус 'NEW'");
     }
 
     @Test
@@ -449,7 +461,8 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask3);
 
         Status epicStatus = taskManager.getEpic(1).getStatus();
-        assertEquals(Status.NEW, epicStatus, "Статус эпика рассчитывается некорректно.");
+        assertEquals(Status.NEW, epicStatus, "Ожидалось," +
+                " что статус эпика с подзадачами со статусом 'NEW' будет 'NEW'");
     }
 
     @Test
@@ -464,7 +477,8 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask3);
 
         Status epicStatus = taskManager.getEpic(1).getStatus();
-        assertEquals(Status.DONE, epicStatus, "Статус эпика рассчитывается некорректно.");
+        assertEquals(Status.DONE, epicStatus, "Ожидалось," +
+                " что статус эпика с подзадачами со статусом 'DONE' будет 'DONE'");
     }
 
     @Test
@@ -479,7 +493,8 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask3);
 
         Status epicStatus = taskManager.getEpic(1).getStatus();
-        assertEquals(Status.IN_PROGRESS, epicStatus, "Статус эпика рассчитывается некорректно.");
+        assertEquals(Status.IN_PROGRESS, epicStatus, "Ожидалось," +
+                " что статус эпика с подзадачами с разными статусами будет 'IN_PROGRESS'");
     }
 
     @Test
@@ -494,7 +509,8 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask3);
 
         Status epicStatus = taskManager.getEpic(1).getStatus();
-        assertEquals(Status.IN_PROGRESS, epicStatus, "Статус эпика рассчитывается некорректно.");
+        assertEquals(Status.IN_PROGRESS, epicStatus, "Ожидалось," +
+                " что статус эпика с подзадачами со статусами 'IN_PROGRESS' будет 'IN_PROGRESS'");
     }
 
     @Test
@@ -508,9 +524,11 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask1);
 
         assertEquals(startTime, epic1.getStartTime()
-                , "Время старта эпика с одной подзадачей рассчитано неверно.");
+                , "Ожидалось" +
+                        ", что время старта эпика будет совпадать со временем старта его единственной подзадачи");
         assertEquals(endTime, epic1.getEndTime()
-                , "Время конца эпика с одной подзадачей рассчитано неверно.");
+                , "Ожидалось" +
+                        ", что время конца эпика будет совпадать со временем конца его единственной подзадачи");
     }
 
     @Test
@@ -533,15 +551,17 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.createSubtask(subtask3);
 
         assertEquals(startTime, epic1.getStartTime()
-                , "Время старта эпика с одной подзадачей рассчитано неверно.");
+                , "Ожидалось" +
+                        ", что время старта эпика будет совпадать со временем старта его самой ранней подзадачи");
         assertEquals(endTime, epic1.getEndTime()
-                , "Время конца эпика с одной подзадачей рассчитано неверно.");
+                , "Ожидалось" +
+                        ", что время старта эпика будет совпадать со временем конца его самой поздней подзадачи");
     }
 
     @Test
     public void shouldReturnEmptyHistory() {
         assertEquals(0, taskManager.getHistory().size()
-                , "История не пуста при создании нового менеджера.");
+                , "Ожидалась пустая история при создании нового менеджера.");
 
         taskManager.createEpic(epic1);
         taskManager.createTask(task1);
@@ -556,7 +576,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.deleteSubtask(3);
 
         assertEquals(0, taskManager.getHistory().size()
-                , "История не пуста при создании нового менеджера.");
+                , "Ожидалась пустая история после удаления всех задач.");
     }
 
     @Test
@@ -583,20 +603,22 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.getSubtask(9);
 
         assertEquals(List.of(1, 2, 3, 4, 7, 8, 9), taskManager.getIdHistory()
-                , "История сохраняется некорректно.");
+                , "Ожидалось получить корректную историю.");
 
         taskManager.deleteEpic(1);
 
         assertEquals(List.of(2, 3, 4), taskManager.getIdHistory()
-                , "История сохраняется некорректно.");
+                , "Ожидалось получить корректную историю после удаления эпика с подзадачами.");
 
         taskManager.deleteEpic(3);
 
-        assertEquals(List.of(2, 4), taskManager.getIdHistory(), "История сохраняется некорректно.");
+        assertEquals(List.of(2, 4), taskManager.getIdHistory()
+                , "Ожидалось получить корректную историю после удаления эпика без подзадач.");
 
         taskManager.deleteTask(4);
 
-        assertEquals(List.of(2), taskManager.getIdHistory(), "История сохраняется некорректно.");
+        assertEquals(List.of(2), taskManager.getIdHistory()
+                , "Ожидалось получить корректную историю после удаления задачи.");
     }
 
     @Test
@@ -614,7 +636,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
         taskManager.getEpic(1);
 
         assertEquals(List.of(3, 2, 1), taskManager.getIdHistory()
-                , "История сохраняется некорректно при дублировании просмотров.");
+                , "Ожидалось получить корректную историю после дублированного получения задач.");
     }
 
     @Test
@@ -627,7 +649,8 @@ abstract class TasksManagerTest<T extends TasksManager> {
         assertThrows(DataValidationException.class, () -> {
                 taskManager.createTask(task1);
                 taskManager.createTask(task2);
-        });
+        }
+        ,"Ожидалось получить исключение при пересечении времени задач.");
 
     }
 

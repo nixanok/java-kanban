@@ -1,4 +1,4 @@
-package taskCore.test;
+package test.taskCoreTest;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,8 @@ class EpicTest {
     @Test
     public void shouldReturnEmptyListIdsOfSubtasks() {
         Epic epic = new Epic("epic1", "description1");
-        assertEquals(Collections.emptyList(), epic.getSubtasksId(), "Список подзадач в Epic непустой.");
+        assertEquals(Collections.emptyList(), epic.getSubtasksId()
+                , "Ожидалось получить пустой список под задач при создании нового эпика.");
     }
 
     @Test
@@ -24,7 +25,8 @@ class EpicTest {
         epic.addSubtask(3);
 
         List<Integer> expectedSubtasks = List.of(2, 3);
-        assertEquals(expectedSubtasks, epic.getSubtasksId(), "Id подзадач сохранены некорректно.");
+        assertEquals(expectedSubtasks, epic.getSubtasksId()
+                , "Ожидалось получить список из двух подзадач при добавлении их в эпик.");
     }
 
     @Test
@@ -40,7 +42,8 @@ class EpicTest {
         epic.removeSubtask(2);
 
         List<Integer> expectedSubtasks = List.of(3, 4);
-        assertEquals(expectedSubtasks, epic.getSubtasksId(), "Подзадачи некорректно удаляются из эпика.");
+        assertEquals(expectedSubtasks, epic.getSubtasksId(), "Ожидалось " +
+                "получить корректный список из подзадач при добавлении их в эпик и последующем удалении.");
     }
 
     @Test
@@ -54,7 +57,8 @@ class EpicTest {
 
         epic.removeAllSubtasks();
 
-        assertEquals(Collections.emptyList(), epic.getSubtasksId(), "Подзадачи некорректно удаляются из эпика.");
+        assertEquals(Collections.emptyList(), epic.getSubtasksId()
+                , "Ожидалось получить пустой список подзадач после их полного удаления из эпика.");
     }
 
 }

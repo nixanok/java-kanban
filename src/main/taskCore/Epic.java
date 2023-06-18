@@ -1,4 +1,4 @@
-package taskCore;
+package main.taskCore;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -9,7 +9,12 @@ public class Epic extends Task {
 
     final private List<Integer> subtasks;
     public Epic(String title, String description) {
-        super(title, description, Status.NEW, LocalDateTime.now(), Duration.ofMinutes(0));
+        super(title, description, Status.NEW, LocalDateTime.now().withNano(0), Duration.ofMinutes(0));
+        subtasks = new ArrayList<>();
+    }
+
+    public Epic(int id, String title, String description) {
+        super(id, title, description, Status.NEW, LocalDateTime.now().withNano(0), Duration.ofMinutes(0));
         subtasks = new ArrayList<>();
     }
 

@@ -1,4 +1,4 @@
-package additionalStructures;
+package main.additionalStructures;
 
 public class Node<E> {
     Node<E> next;

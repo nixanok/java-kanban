@@ -1,8 +1,8 @@
 package test.taskCoreTest;
 
 import org.junit.jupiter.api.Test;
-import taskCore.Status;
-import taskCore.Subtask;
+import main.taskCore.Status;
+import main.taskCore.Subtask;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

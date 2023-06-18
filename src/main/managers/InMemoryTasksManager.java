@@ -1,11 +1,11 @@
-package managers;
+package main.managers;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.DataValidationException;
-import taskCore.*;
+import main.taskCore.*;
 
 public class InMemoryTasksManager implements TasksManager {
     private int nextId = 1;
@@ -103,6 +103,7 @@ public class InMemoryTasksManager implements TasksManager {
     @Override
     public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
+        updateEpic(epic.getId());
         checkValidation();
     }
 

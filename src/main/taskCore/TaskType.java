@@ -1,4 +1,4 @@
-package taskCore;
+package main.taskCore;
 
 public enum TaskType {
     TASK,

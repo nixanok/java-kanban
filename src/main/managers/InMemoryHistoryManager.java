@@ -1,9 +1,9 @@
-package managers;
+package main.managers;
 
-import additionalStructures.CustomLinkedList;
-import additionalStructures.Node;
+import main.additionalStructures.CustomLinkedList;
+import main.additionalStructures.Node;
 
-import taskCore.Task;
+import main.taskCore.Task;
 
 import java.util.HashMap;
 import java.util.List;

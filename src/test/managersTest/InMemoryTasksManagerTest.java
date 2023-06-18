@@ -1,13 +1,13 @@
 package test.managersTest;
 
-import managers.InMemoryTasksManager;
-import managers.Managers;
+import main.managers.InMemoryTasksManager;
+import main.managers.Managers;
 import org.junit.jupiter.api.BeforeEach;
 
 public class InMemoryTasksManagerTest extends TasksManagerTest<InMemoryTasksManager> {
 
     @BeforeEach
     public void initManager() {
-        taskManager = (InMemoryTasksManager) Managers.getDefault();
+        taskManager = Managers.getInMemoryTasksManager();
     }
 }

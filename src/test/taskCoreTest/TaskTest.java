@@ -1,7 +1,7 @@
 package test.taskCoreTest;
 
-import taskCore.Status;
-import taskCore.Task;
+import main.taskCore.Status;
+import main.taskCore.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

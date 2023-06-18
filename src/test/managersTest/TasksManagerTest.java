@@ -2,15 +2,15 @@ package test.managersTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import managers.TasksManager;
+import main.managers.TasksManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.DataValidationException;
-import taskCore.Epic;
-import taskCore.Status;
-import taskCore.Subtask;
-import taskCore.Task;
+import main.taskCore.Epic;
+import main.taskCore.Status;
+import main.taskCore.Subtask;
+import main.taskCore.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

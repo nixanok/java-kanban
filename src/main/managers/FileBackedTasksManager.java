@@ -1,7 +1,7 @@
-package managers;
+package main.managers;
 
-import exceptions.ManagerSaveException;
-import taskCore.*;
+import main.exceptions.ManagerSaveException;
+import main.taskCore.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static taskCore.TaskType.*;
+import static main.taskCore.TaskType.*;
 
 public class FileBackedTasksManager extends InMemoryTasksManager {
     private final File file;
@@ -126,7 +126,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
                 Epic epic = epics.get(epicId);
                 epic.addSubtask(task.getId());
 
-                updateEpicStatus(epicId);
+                updateEpic(epicId);
                 break;
             default:
                 throw new RuntimeException();
@@ -217,12 +217,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager {
     @Override
     public void createTask(Task task) {
         super.createTask(task);
-        try {
-            save();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        save();
     }
 
     @Override

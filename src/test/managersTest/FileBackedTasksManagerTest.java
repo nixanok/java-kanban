@@ -6,22 +6,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import managers.FileBackedTasksManager;
-import managers.InMemoryTasksManager;
-import managers.Managers;
-import managers.TasksManager;
+import main.managers.FileBackedTasksManager;
+import main.managers.Managers;
+import main.managers.TasksManager;
 
-import taskCore.Subtask;
-import taskCore.Task;
-import taskCore.Epic;
+import main.taskCore.Subtask;
+import main.taskCore.Task;
+import main.taskCore.Epic;
 
 import java.io.*;
 import java.util.Collections;
 import java.util.List;
 
-import exceptions.ManagerSaveException;
+import main.exceptions.ManagerSaveException;
 
-public class FileBackedTasksManagerTest extends TasksManagerTest<InMemoryTasksManager> {
+public class FileBackedTasksManagerTest extends TasksManagerTest<FileBackedTasksManager> {
 
     public static final  String PATH_TO_DATA_TEST = "src/test/managersTest/resources/dataTest.csv";
 

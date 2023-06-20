@@ -9,7 +9,6 @@ import java.net.http.HttpResponse;
 
 public class KVTaskClient {
     HttpClient client;
-
     private final URL urlDataServer;
     private String API_TOKEN;
     public KVTaskClient(URL urlDataServer) {
@@ -26,9 +25,8 @@ public class KVTaskClient {
                 .build();
 
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Код статуса: " + response.statusCode());
-            System.out.println("Ответ: " + response.body());
+            HttpResponse<String> response = sendRequest(request);
+            printResponse(response);
             API_TOKEN = response.body();
         } catch (IOException | InterruptedException e) { // обработка ошибки отправки запроса
             System.out.println("Во время выполнения запроса ресурса по URL-адресу: '" + uri + "' возникла ошибка.\n" +
@@ -43,9 +41,8 @@ public class KVTaskClient {
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Код статуса: " + response.statusCode());
-            System.out.println("Ответ: " + response.body());
+            HttpResponse<String> response = sendRequest(request);
+            printResponse(response);
         } catch (IOException | InterruptedException e) {
             System.out.println("Во время выполнения запроса ресурса по URL-адресу: '" + uri + "' возникла ошибка.\n" +
                     "Проверьте, пожалуйста, адрес и повторите попытку.");
@@ -59,15 +56,23 @@ public class KVTaskClient {
                 .GET()
                 .build();
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Код статуса: " + response.statusCode());
-            System.out.println("Ответ: " + response.body());
+            HttpResponse<String> response = sendRequest(request);
+            printResponse(response);
             return response.body();
         } catch (IOException | InterruptedException e) {
             System.out.println("Во время выполнения запроса ресурса по URL-адресу: '" + uri + "' возникла ошибка.\n" +
                     "Проверьте, пожалуйста, адрес и повторите попытку.");
         }
         return "";
+    }
+
+    private HttpResponse<String> sendRequest(HttpRequest request) throws IOException, InterruptedException {
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    private void printResponse(HttpResponse<String> response) {
+        System.out.println("Код статуса: " + response.statusCode());
+        System.out.println("Ответ: " + response.body());
     }
 
 }

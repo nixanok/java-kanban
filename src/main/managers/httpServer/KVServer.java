@@ -11,28 +11,16 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 public class KVServer {
-	public int PORT = 8078;
+	private final int port;
 	private final String apiToken;
 	private final HttpServer server;
 	private final Map<String, String> data = new HashMap<>();
 
-	public KVServer() {
+	public KVServer(int port) {
+		this.port = port;
 		apiToken = generateApiToken();
 		try {
-			server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		server.createContext("/register", this::register);
-		server.createContext("/save", this::save);
-		server.createContext("/load", this::load);
-	}
-
-	public KVServer(int PORT) {
-		this.PORT = PORT;
-		apiToken = generateApiToken();
-		try {
-			server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
+			server = HttpServer.create(new InetSocketAddress("localhost", port), 0);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -117,8 +105,8 @@ public class KVServer {
 	}
 
 	public void start() {
-		System.out.println("Запускаем сервер на порту " + PORT);
-		System.out.println("URL http://localhost:" + PORT + "/");
+		System.out.println("Запускаем сервер на порту " + port);
+		System.out.println("URL http://localhost:" + port + "/");
 		System.out.println("API_TOKEN: " + apiToken);
 		server.start();
 	}
@@ -145,5 +133,9 @@ public class KVServer {
 		h.getResponseHeaders().add("Content-Type", "application/json");
 		h.sendResponseHeaders(200, resp.length);
 		h.getResponseBody().write(resp);
+	}
+
+	public int getPort() {
+		return port;
 	}
 }

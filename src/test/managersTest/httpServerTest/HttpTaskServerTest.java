@@ -8,13 +8,13 @@ import main.managers.Managers;
 import main.managers.TasksManager;
 import main.managers.httpServer.HttpTaskServer;
 import main.managers.httpServer.KVServer;
+import main.managers.httpServer.TaskGson;
 import main.taskCore.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static main.managers.httpServer.HttpTaskServer.gson;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -28,17 +28,17 @@ import java.util.List;
 
 public class HttpTaskServerTest {
 
-    static KVServer kvServer;
+    private KVServer kvServer;
 
-    static HttpTaskServer httpTaskServer;
+    private HttpTaskServer httpTaskServer;
 
     HttpClient client = HttpClient.newHttpClient();
 
     String urlInString = "http://localhost:8082/tasks";
 
-    Task task1, task2, task3;
-    Epic epic1, epic2, epic3;
-    Subtask subtask1, subtask2, subtask3;
+    private Task task1, task2, task3;
+    private Epic epic1, epic2, epic3;
+    private Subtask subtask1, subtask2, subtask3;
 
     @BeforeEach
     public void startServers() {
@@ -112,7 +112,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonObject());
 
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        Task loadedTask = gson.fromJson(jsonObject, Task.class);
+        Task loadedTask = TaskGson.GSON.fromJson(jsonObject, Task.class);
         assertEquals(task1, loadedTask);
     }
 
@@ -133,7 +133,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonObject());
 
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        Epic loadedEpic = gson.fromJson(jsonObject, Epic.class);
+        Epic loadedEpic = TaskGson.GSON.fromJson(jsonObject, Epic.class);
         assertEquals(epic1, loadedEpic);
     }
 
@@ -158,7 +158,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonObject());
 
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        Subtask loadedSubtask = gson.fromJson(jsonObject, Subtask.class);
+        Subtask loadedSubtask = TaskGson.GSON.fromJson(jsonObject, Subtask.class);
         assertEquals(subtask1, loadedSubtask);
     }
 
@@ -186,7 +186,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Task[] loadedTasks = gson.fromJson(jsonArray, Task[].class);
+        Task[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Task[].class);
         assertArrayEquals(loadedTasks, new Task[]{task1, task2, task3});
     }
 
@@ -214,7 +214,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Epic[] loadedTasks = gson.fromJson(jsonArray, Epic[].class);
+        Epic[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Epic[].class);
         assertArrayEquals(loadedTasks, new Epic[]{epic1, epic2, epic3});
     }
 
@@ -245,7 +245,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Subtask[] loadedSubtasks = gson.fromJson(jsonArray, Subtask[].class);
+        Subtask[] loadedSubtasks = TaskGson.GSON.fromJson(jsonArray, Subtask[].class);
         assertArrayEquals(loadedSubtasks, new Subtask[]{subtask1, subtask2, subtask3});
     }
 
@@ -279,7 +279,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Subtask[] loadedSubtasks = gson.fromJson(jsonArray, Subtask[].class);
+        Subtask[] loadedSubtasks = TaskGson.GSON.fromJson(jsonArray, Subtask[].class);
         assertArrayEquals(loadedSubtasks, new Subtask[]{subtask1, subtask2, subtask3});
 
     }
@@ -338,7 +338,7 @@ public class HttpTaskServerTest {
         manager.createSubtask(subtask1);
         manager.createSubtask(subtask2);
         manager.createSubtask(subtask3);
-        assertEquals( gson.toJson(List.of(subtask3, task2, task3, subtask1, task1, subtask2)), gson.toJson(jsonArray));
+        assertEquals( TaskGson.GSON.toJson(List.of(subtask3, task2, task3, subtask1, task1, subtask2)), TaskGson.GSON.toJson(jsonArray));
     }
 
     @Test
@@ -395,7 +395,7 @@ public class HttpTaskServerTest {
         manager.getTask(2);
         manager.getEpic(1);
         manager.getSubtask(3);
-        assertEquals(gson.toJson(manager.getHistory()), gson.toJson(jsonArray));
+        assertEquals(TaskGson.GSON.toJson(manager.getHistory()), TaskGson.GSON.toJson(jsonArray));
     }
 
     @Test
@@ -423,7 +423,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Task[] loadedTasks = gson.fromJson(jsonArray, Task[].class);
+        Task[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Task[].class);
         assertArrayEquals(loadedTasks, new Task[]{});
     }
 
@@ -455,7 +455,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Task[] loadedTasks = gson.fromJson(jsonArray, Task[].class);
+        Task[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Task[].class);
         assertArrayEquals(loadedTasks, new Task[]{});
     }
 
@@ -484,7 +484,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Epic[] loadedTasks = gson.fromJson(jsonArray, Epic[].class);
+        Epic[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Epic[].class);
         assertArrayEquals(loadedTasks, new Epic[]{});
     }
 
@@ -516,7 +516,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Epic[] loadedTasks = gson.fromJson(jsonArray, Epic[].class);
+        Epic[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Epic[].class);
         assertArrayEquals(loadedTasks, new Epic[]{});
     }
 
@@ -548,7 +548,7 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Subtask[] loadedTasks = gson.fromJson(jsonArray, Subtask[].class);
+        Subtask[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Subtask[].class);
         assertArrayEquals(loadedTasks, new Subtask[]{});
     }
 
@@ -583,12 +583,12 @@ public class HttpTaskServerTest {
         assertTrue(jsonElement.isJsonArray());
 
         JsonArray jsonArray = jsonElement.getAsJsonArray();
-        Subtask[] loadedTasks = gson.fromJson(jsonArray, Subtask[].class);
+        Subtask[] loadedTasks = TaskGson.GSON.fromJson(jsonArray, Subtask[].class);
         assertArrayEquals(loadedTasks, new Subtask[]{});
     }
 
     private HttpResponse<String> sendTask(Task task, TaskType type) throws IOException, InterruptedException {
-        String json = gson.toJson(task);
+        String json = TaskGson.GSON.toJson(task);
         HttpRequest.BodyPublisher body = HttpRequest.BodyPublishers.ofString(json);
         HttpRequest request;
         switch(type) {

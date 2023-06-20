@@ -1,7 +1,7 @@
 package main.managers;
 
-import main.managers.httpServer.HttpTaskServer;
 import main.managers.httpServer.KVTaskClient;
+import main.managers.httpServer.TaskGson;
 import main.taskCore.Epic;
 import main.taskCore.Subtask;
 import main.taskCore.Task;
@@ -11,11 +11,9 @@ import java.net.URL;
 import java.util.*;
 
 public class HttpTaskManager extends InMemoryTasksManager {
-    private final URL urlDataServer;
     private final KVTaskClient kvTaskClient;
     public HttpTaskManager(URL urlDataServer) {
         super();
-        this.urlDataServer = urlDataServer;
         kvTaskClient = new KVTaskClient(urlDataServer);
         loadFromServer();
     }
@@ -26,7 +24,7 @@ public class HttpTaskManager extends InMemoryTasksManager {
         List<Task> loadedTasks;
         if (!response.equals(""))
             loadedTasks = new ArrayList<>(List.of(
-                    HttpTaskServer.gson.fromJson(response, Task[].class)));
+                    TaskGson.GSON.fromJson(response, Task[].class)));
         else {
             loadedTasks = Collections.emptyList();
         }
@@ -41,7 +39,7 @@ public class HttpTaskManager extends InMemoryTasksManager {
         List<Epic> loadedEpics;
         if (!response.equals("")) {
             loadedEpics = new ArrayList<>(List.of(
-                    HttpTaskServer.gson.fromJson(response, Epic[].class)));
+                    TaskGson.GSON.fromJson(response, Epic[].class)));
         }
         else {
             loadedEpics = Collections.emptyList();
@@ -56,7 +54,7 @@ public class HttpTaskManager extends InMemoryTasksManager {
         List<Subtask> loadedSubtasks;
         if (!response.equals("")) {
             loadedSubtasks = new ArrayList<>(List.of(
-                    HttpTaskServer.gson.fromJson(response, Subtask[].class)));
+                    TaskGson.GSON.fromJson(response, Subtask[].class)));
         }
         else {
             loadedSubtasks = Collections.emptyList();
@@ -79,7 +77,7 @@ public class HttpTaskManager extends InMemoryTasksManager {
         response = kvTaskClient.load("history");
         List<Integer> historyTasksId;
         if (!response.equals("")) {
-            historyTasksId = List.of(HttpTaskServer.gson.fromJson(
+            historyTasksId = List.of(TaskGson.GSON.fromJson(
                     response, Integer[].class));
         }
         else {
@@ -108,10 +106,10 @@ public class HttpTaskManager extends InMemoryTasksManager {
     }
 
     public void save() {
-        kvTaskClient.put("epics", HttpTaskServer.gson.toJson(epics));
-        kvTaskClient.put("tasks", HttpTaskServer.gson.toJson(tasks));
-        kvTaskClient.put("subtasks", HttpTaskServer.gson.toJson(subtasks));
-        kvTaskClient.put("history", HttpTaskServer.gson.toJson(getIdHistory()));
+        kvTaskClient.put("epics", TaskGson.GSON.toJson(epics));
+        kvTaskClient.put("tasks", TaskGson.GSON.toJson(tasks));
+        kvTaskClient.put("subtasks", TaskGson.GSON.toJson(subtasks));
+        kvTaskClient.put("history", TaskGson.GSON.toJson(getIdHistory()));
     }
 
     @Override
@@ -235,7 +233,4 @@ public class HttpTaskManager extends InMemoryTasksManager {
         return subtasks;
     }
 
-    public URL getUrlDataServer() {
-        return urlDataServer;
-    }
 }

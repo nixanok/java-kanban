@@ -32,9 +32,9 @@ public class HttpTaskServerTest {
 
     private HttpTaskServer httpTaskServer;
 
-    HttpClient client = HttpClient.newHttpClient();
+    private final HttpClient client = HttpClient.newHttpClient();
 
-    String urlInString = "http://localhost:8082/tasks";
+    private final String urlInString = "http://localhost:8082/tasks";
 
     private Task task1, task2, task3;
     private Epic epic1, epic2, epic3;
